@@ -1,4 +1,6 @@
 import {Request, Response, NextFunction} from 'express';
+import {validationResult} from 'express-validator';
+import CustomError from '../../classes/CustomError';
 import {getAllCategories, getCategoryById} from '../models/categoryModel';
 
 const categoryListGet = async (
@@ -20,6 +22,15 @@ const categoryGet = async (
   next: NextFunction
 ) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const messages = errors
+        .array()
+        .map((error) => `${error.msg}: ${error.param}`)
+        .join(', ');
+      throw new CustomError(messages, 400);
+    }
+
     const category = await getCategoryById(req.params.id);
     res.json(category);
   } catch (error) {
