@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
-import {getApiRoot, getCategories} from './testCategory';
-import Category from '../src/interfaces/Category';
+import {getApiRoot, getCategories, postCategory} from './testCategory';
+import {Category} from '../src/interfaces/Category';
 
 // import app from '../src/app';
 const app = 'http://localhost:3000';
@@ -19,6 +19,10 @@ describe('GET /api/v1', () => {
 
   // TODO: add test for get category by id
   // TODO: add test for post category
+  it('Should post a category', async () => {
+    const category_name = 'test category';
+    await postCategory(app, category_name);
+  });
   // TODO: add test for put category
   // TODO: add test for delete category
 

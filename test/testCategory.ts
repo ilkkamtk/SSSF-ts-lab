@@ -1,6 +1,6 @@
 /* eslint-disable node/no-unpublished-import */
 import request from 'supertest';
-import Category from '../src/interfaces/Category';
+import {Category} from '../src/interfaces/Category';
 import MessageResponse from '../src/interfaces/MessageResponse';
 
 // functios to test succesful cateory routes
@@ -68,6 +68,7 @@ const postCategory = (
         } else {
           const message: MessageResponse = response.body;
           expect(message.message).not.toBe('');
+          expect(message.id).toBeGreaterThan(0);
           resolve(message);
         }
       });

@@ -70,4 +70,4 @@ const categoryPost = async (
   }
 };
 
-export {categoryListGet, categoryGet};
+export {categoryListGet, categoryGet, categoryPost};
