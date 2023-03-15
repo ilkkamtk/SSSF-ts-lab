@@ -6,11 +6,18 @@ import {Category} from './Category';
 interface Species {
   species_id: number;
   species_name: string;
-  category: number | Category;
+  category: Category;
   image: string;
 }
 
-interface GetSpecies extends RowDataPacket, Species {}
+interface JsonSpecies {
+  species_id: number;
+  species_name: string;
+  category: string;
+  image: string;
+}
+
+interface GetSpecies extends RowDataPacket, JsonSpecies {}
 
 type PostSpecies = Omit<Species, 'species_id' | 'image'>;
 

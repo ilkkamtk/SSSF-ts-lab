@@ -24,13 +24,23 @@ const getAllSpecies = async () => {
 
 const getSpeciesById = async (id: number) => {
   const [rows] = await promisePool.execute<GetSpecies[]>(
-    'SELECT * FROM species WHERE species_id = ?',
+    `SELECT species_id, species_name, image,
+    JSON_OBJECT('category_id', categories.category_id, 'category_name', categories.category_name) AS category
+    FROM species
+    JOIN categories ON species.category = categories.category_id
+    WHERE species_id = ?`,
     [id]
   );
   if (rows.length === 0) {
     throw new CustomError('No species found', 500);
   }
-  return rows[0] as Species;
+
+  const species: Species = {
+    ...rows[0],
+    category: JSON.parse(rows[0].category),
+  };
+
+  return species;
 };
 
 const addSpecies = async (species: Species) => {
