@@ -5,10 +5,10 @@ import {Species, GetSpecies, PostSpecies} from '../../interfaces/Species';
 
 const getAllSpecies = async () => {
   const [rows] = await promisePool.execute<GetSpecies[]>(
-    `SELECT species_id, species_name, image
+    `SELECT species_id, species_name, image,
     JSON_OBJECT('category_id', categories.category_id, 'category_name', categories.category_name) AS category
-    JOIN categories ON species.category = categories.category_id
-    FROM species`
+    FROM species
+    JOIN categories ON species.category = categories.category_id`
   );
   if (rows.length === 0) {
     throw new CustomError('No species found', 400);
