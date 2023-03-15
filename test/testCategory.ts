@@ -90,6 +90,7 @@ const putCategory = (
         } else {
           const message: MessageResponse = response.body;
           expect(message.message).not.toBe('');
+          expect(message.id).toBeGreaterThan(0);
           resolve(message);
         }
       });
@@ -109,6 +110,7 @@ const deleteCategory = (
         } else {
           const message: MessageResponse = response.body;
           expect(message.message).not.toBe('');
+          expect(message.id).toBeGreaterThan(0);
           resolve(message);
         }
       });
