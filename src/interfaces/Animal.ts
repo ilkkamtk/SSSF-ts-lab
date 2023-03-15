@@ -4,11 +4,18 @@ import {Species} from './Species';
 interface Animal {
   animal_id: number;
   animal_name: string;
-  species: number | Species;
+  species: Species;
   birthdate: Date;
 }
 
-interface GetAnimal extends RowDataPacket, Animal {}
+interface JsonAnimal {
+  animal_id: number;
+  animal_name: string;
+  species: string;
+  birthdate: Date;
+}
+
+interface GetAnimal extends RowDataPacket, JsonAnimal {}
 
 type PostAnimal = Omit<Animal, 'animal_id'>;
 

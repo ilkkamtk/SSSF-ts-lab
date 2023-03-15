@@ -5,23 +5,50 @@ import {Animal, GetAnimal, PostAnimal} from '../../interfaces/Animal';
 
 const getAllAnimals = async () => {
   const [rows] = await promisePool.execute<GetAnimal[]>(
-    'SELECT * FROM animals'
+    `SELECT animal_id, animal_name, birthdate,
+    JSON_OBJECT(
+      'species_id', species.species_id, 'species_name', species.species_name, 'image', species.image,
+      'category', JSON_OBJECT('category_id', categories.category_id, 'category_name', categories.category_name)
+    ) AS species
+    FROM animals
+    JOIN species ON animals.species = species.species_id
+    JOIN categories ON species.category = categories.category_id`
   );
   if (rows.length === 0) {
     throw new CustomError('No animals found', 400);
   }
-  return rows as Animal[];
+
+  const animals: Animal[] = rows.map((row) => ({
+    ...row,
+    species: JSON.parse(row.species),
+  }));
+
+  return animals;
 };
 
 const getAnimalById = async (id: number) => {
   const [rows] = await promisePool.execute<GetAnimal[]>(
-    'SELECT * FROM animals WHERE animal_id = ?',
+    `SELECT animal_id, animal_name, birthdate,
+    JSON_OBJECT(
+      'species_id', species.species_id, 'species_name', species.species_name, 'image', species.image,
+      'category', JSON_OBJECT('category_id', categories.category_id, 'category_name', categories.category_name)
+    ) AS species
+    FROM animals
+    JOIN species ON animals.species = species.species_id
+    JOIN categories ON species.category = categories.category_id
+    WHERE animal_id = ?`,
     [id]
   );
   if (rows.length === 0) {
     throw new CustomError('No animal found', 500);
   }
-  return rows[0] as Animal;
+
+  const animal: Animal = {
+    ...rows[0],
+    species: JSON.parse(rows[0].species),
+  };
+
+  return animal;
 };
 
 const addAnimal = async (animal: PostAnimal) => {
