@@ -1,5 +1,6 @@
 import express from 'express';
 import {param, body} from 'express-validator';
+import {getImageFromWiki} from '../../middlewares';
 import {
   speciesDelete,
   speciesGet,
@@ -13,7 +14,11 @@ const router = express.Router();
 router
   .route('/')
   .get(speciesListGet)
-  .post(body('species_name').notEmpty().isString().escape(), speciesPost);
+  .post(
+    body('species_name').notEmpty().isString().escape(),
+    getImageFromWiki,
+    speciesPost
+  );
 
 router
   .route('/:id')

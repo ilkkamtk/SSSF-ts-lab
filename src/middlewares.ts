@@ -3,6 +3,7 @@ import {NextFunction, Request, Response} from 'express';
 import ErrorResponse from './interfaces/ErrorResponse';
 import CustomError from './classes/CustomError';
 import imageFromWikipedia from './functions/imageFromWikipedia';
+import {Species} from './interfaces/Species';
 
 const notFound = (req: Request, res: Response, next: NextFunction) => {
   const error = new CustomError(`🔍 - Not Found - ${req.originalUrl}`, 404);
@@ -25,7 +26,7 @@ const errorHandler = (
 };
 
 const getImageFromWiki = async (
-  req: Request,
+  req: Request<{}, {}, Species>,
   res: Response,
   next: NextFunction
 ) => {
