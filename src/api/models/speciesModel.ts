@@ -13,7 +13,13 @@ const getAllSpecies = async () => {
   if (rows.length === 0) {
     throw new CustomError('No species found', 400);
   }
-  return rows as Species[];
+
+  const species: Species[] = rows.map((row) => ({
+    ...row,
+    category: JSON.parse(row.category),
+  }));
+
+  return species;
 };
 
 const getSpeciesById = async (id: number) => {
