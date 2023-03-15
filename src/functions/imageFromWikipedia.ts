@@ -9,6 +9,7 @@ export default async (query: string) => {
     const data = (await response.json()) as WikiImage;
     const pages = data.query.pages;
     const page = Object.values(pages)[0];
+    console.log(page);
     const image = page.original.source;
     return image;
   } catch (error) {
