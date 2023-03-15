@@ -6,7 +6,7 @@ import {Category} from './Category';
 interface Species {
   species_id: number;
   species_name: string;
-  category: Category;
+  category: number;
   image: string;
 }
 

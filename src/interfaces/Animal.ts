@@ -4,7 +4,7 @@ import {Species} from './Species';
 interface Animal {
   animal_id: number;
   animal_name: string;
-  species: Species;
+  species: number;
   birthdate: Date;
 }
 
